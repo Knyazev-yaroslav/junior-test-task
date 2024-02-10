@@ -1,7 +1,6 @@
 'use client';
 
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */
 
 import React, { useEffect, useState } from 'react';
 
@@ -18,41 +17,40 @@ const AdCard = ({ thumbnail, title, city, price, id }) => {
     setModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (event) => {
+    event.stopPropagation();
+
     setModalOpen(false);
-  };
-
-  const handleCardClick = (event) => {
-    // if (event.target.classList.contains(styles.like_button)) {
-    //   return;
-    // }
-
-    openModal();
   };
 
   useEffect(() => {
     setIsAdLiked(!!localStorage.getItem(id));
   }, [id]);
 
-  const handleLike = () => {
+  const handleLike = (event) => {
+    event.stopPropagation();
+
     localStorage.setItem(id, 'liked');
     setIsAdLiked(true);
   };
-  const handleDislike = () => {
+
+  const handleDislike = (event) => {
+    event.stopPropagation();
+
     localStorage.removeItem(id);
     setIsAdLiked(false);
   };
+
   const likeButtonHandler = isAdLiked ? handleDislike : handleLike;
 
   return (
-    <div className={styles.ad_card_container}>
-      <button
-        type="button"
-        className={styles.ad_card}
-        onClick={handleCardClick}
-      >
-        <img className={styles.thumbnail} src={thumbnail} alt="thumbnail img" />
-      </button>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div
+      className={styles.ad_card_container}
+      onClick={openModal}
+      onKeyDown={() => {}}
+    >
+      <img className={styles.thumbnail} src={thumbnail} alt="thumbnail img" />
       <div className={styles.ad_body}>
         <div className={styles.ad_top}>
           <h2 className={styles.ad_title}>{title}</h2>
@@ -71,7 +69,14 @@ const AdCard = ({ thumbnail, title, city, price, id }) => {
           <p className={styles.ad_price}>THB {price}</p>
         </div>
       </div>
-      {isModalOpen && <AdDetails onClose={closeModal} id={id} />}
+      {isModalOpen && (
+        <AdDetails
+          isAdLiked={isAdLiked}
+          likeButtonHandler={likeButtonHandler}
+          onClose={closeModal}
+          id={id}
+        />
+      )}
     </div>
   );
 };

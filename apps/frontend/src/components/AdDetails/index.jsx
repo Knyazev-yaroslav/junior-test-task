@@ -6,8 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ReactComponent as LikeIcon } from '../../assets/like.svg';
 import { ReactComponent as CloseIcon } from '../../assets/close.svg';
 
-import styles from './index.module.scss';
 import Circular from '../Circular';
+import Carousel from './Carousel';
+
+import styles from './index.module.scss';
 
 const fetchAdDetails = async (id) => {
   try {
@@ -30,37 +32,6 @@ const fetchAdDetails = async (id) => {
     );
     return null;
   }
-};
-
-const Carousel = ({ images }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentImageIndex((currentImageIndex + 1) % images.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentImageIndex(
-      (currentImageIndex - 1 + images.length) % images.length
-    );
-  };
-
-  return (
-    <div className={styles.carousel_container}>
-      <button className={styles.prev_button} type="button" onClick={prevSlide}>
-        Previous
-      </button>
-      <img
-        className={styles.carousel_img}
-        key={currentImageIndex}
-        src={images[currentImageIndex]}
-        alt={currentImageIndex + 1}
-      />
-      <button className={styles.next_button} type="button" onClick={nextSlide}>
-        Next
-      </button>
-    </div>
-  );
 };
 
 const AdDetails = ({ onClose, id }) => {
@@ -114,7 +85,7 @@ const AdDetails = ({ onClose, id }) => {
               </div>
               <div className={styles.ad_bottom}>
                 <p className={styles.ad_city}>
-                  {`${adData.city_name}, ${adData.disctrict_name}`}
+                  {`${adData.city_name}, ${adData.district_name}`}
                 </p>
                 <p className={styles.ad_price}>THB {adData.price}</p>
               </div>
