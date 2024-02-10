@@ -21,7 +21,7 @@ module.exports = {
         'react/function-component-definition': 'off',
         'eslint-plugin-import/no-extraneous-dependencies': 'off',
         'import/no-extraneous-dependencies': 'off',
-        'no-console': 'error',
+        'no-console': 'off',
         'react/prop-types': 'off',
         "spaced-comment": ["error", "always", { "exceptions": ["*", "@ts-check"] }]
       }

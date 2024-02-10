@@ -14,5 +14,6 @@ COPY nx.json .
 RUN npm install
 COPY apps/frontend/index.d.ts apps/frontend/jest.config.ts apps/frontend/next-env.d.ts apps/frontend/next.config.js apps/frontend/project.json apps/frontend/tsconfig.json ./apps/frontend/
 
+ENV WATCHPACK_POLLING true
 
 CMD ["nx", "dev", "frontend"]
