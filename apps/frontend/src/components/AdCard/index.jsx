@@ -1,13 +1,34 @@
 'use client';
 
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import React, { useEffect, useState } from 'react';
 
 import { ReactComponent as LikeIcon } from '../../assets/like.svg';
 
 import styles from './index.module.scss';
+import AdDetails from '../AdDetails';
 
 const AdCard = ({ thumbnail, title, city, price, id }) => {
   const [isAdLiked, setIsAdLiked] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleCardClick = (event) => {
+    // if (event.target.classList.contains(styles.like_button)) {
+    //   return;
+    // }
+
+    openModal();
+  };
 
   useEffect(() => {
     setIsAdLiked(!!localStorage.getItem(id));
@@ -25,7 +46,13 @@ const AdCard = ({ thumbnail, title, city, price, id }) => {
 
   return (
     <div className={styles.ad_card_container}>
-      <img className={styles.thumbnail} src={thumbnail} alt="thumbnail img" />
+      <button
+        type="button"
+        className={styles.ad_card}
+        onClick={handleCardClick}
+      >
+        <img className={styles.thumbnail} src={thumbnail} alt="thumbnail img" />
+      </button>
       <div className={styles.ad_body}>
         <div className={styles.ad_top}>
           <h2 className={styles.ad_title}>{title}</h2>
@@ -44,6 +71,7 @@ const AdCard = ({ thumbnail, title, city, price, id }) => {
           <p className={styles.ad_price}>THB {price}</p>
         </div>
       </div>
+      {isModalOpen && <AdDetails onClose={closeModal} id={id} />}
     </div>
   );
 };
